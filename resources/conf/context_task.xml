@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>
+    <!--  定时处理开启绩效目标自评开关（离考核期到期前5天）-->
+    <bean id="TimingJobAction" class="com.portal.controller.admin.TimingJobAction">
+    </bean>
+    <bean id="startUpTimingJob" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <property name="targetObject" ref="TimingJobAction"/>
+        <property name="targetMethod" value="startUpAssess"/>
+        	<property name="concurrent"><!--配置为false不允许任务并发执行  -->
+     		<value>false</value> 
+    	</property> 
+    </bean>
+    <bean id="startUpAssess" class="org.springframework.scheduling.quartz.CronTriggerBean">
+        <property name="jobDetail" ref="startUpTimingJob"/>
+        <property name="cronExpression">
+            <value>1 0 0 * * ? *</value>
+        </property>
+    </bean>
+    <!-- 自动推送END -->
+    
+    <!-- =================================================================== Schedule Factory -->
+    <bean id="schedulerFactoryBean" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+        <property name="triggers">
+            <list>
+            	<ref bean="startUpAssess"/>
+            </list>
+        </property>
+    </bean>
+
+    <!-- =================================================================== Schedule End -->
+
+</beans>

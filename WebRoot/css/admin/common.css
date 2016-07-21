@@ -1,0 +1,30 @@
+body{
+	text-align:center;
+	font-family: Helvetica,STHeiti STXihei,Microsoft JhengHei,Microsoft YaHei,Tohoma,Arial;
+	text-align:center;
+	font-size:14px;
+	line-height:150%;
+	color:#fff;
+/* 	background:#79B8C8; */
+	scrollbar-arrow-color:#62ABBD;
+	scrollbar-face-color:#62ABBD;
+	scrollbar-3dlight-color: #C5E0E7;
+	scrollbar-highlight-color:#C5E0E7;
+}
+
+/******dialog*****/
+.popTitles { border-radius: 3px; height: 40px;}
+.popTitles-warn {background: #e66344;}
+.popTitles-normal {background: #e66344;}
+.popTitles h4 {color: #fff; margin-left:10px; line-height: 40px;}
+.popTitles .btn_popClose { background: url(../../img/popClose.png) no-repeat; width: 24px; height: 24px; display: block; float: right; cursor: pointer; margin: -32px 5px;}
+.modal-body h3{margin: 0;line-height: inherit;color: #29323d;}
+.btnCenterBox { text-align:center; }
+.btnRightBox { text-align:right; }
+.popBtn  { height: 36px; line-height: 36px; width: 120px; border-radius: 3px; text-align: center; color: #fff; display: inline-block; cursor: pointer; margin-right:5px;}
+.popBtn_grey { background: #858585; }
+.popBtn_grey:hover{ background: #60748a; }
+.popBtn_blue { background: #038ede; }
+.popBtn_blue:hover{ background: #0080c9; }
+.popBtn_orange {background: #e66344; }
+.popBtn_orange:hover{ background: #fa4646; }

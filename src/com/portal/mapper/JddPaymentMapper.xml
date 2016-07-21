@@ -1,0 +1,325 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.portal.mapper.JddPaymentMapper" >
+  <resultMap id="BaseResultMap" type="com.portal.bean.JddPayment" >
+    <id column="GUID" property="guid" jdbcType="VARCHAR" />
+    <result column="USER_ID" property="userId" jdbcType="VARCHAR" />
+    <result column="USER_NAME" property="userName" jdbcType="VARCHAR" />
+    <result column="LINK_ID" property="linkId" jdbcType="VARCHAR" />
+    <result column="COUNT" property="count" jdbcType="DECIMAL" />
+    <result column="REASON" property="reason" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="LINK_SYSTEM_ID" property="linkSystemId" jdbcType="VARCHAR" />
+    <result column="RETURN_TIME" property="returnTime" jdbcType="TIMESTAMP" />
+    <result column="RULE_CHILD" property="ruleChild" jdbcType="VARCHAR" />
+    <result column="CHILD_NAME" property="childName" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    GUID, USER_ID, USER_NAME, LINK_ID, COUNT, REASON, CREATE_TIME, LINK_SYSTEM_ID, RETURN_TIME, RULE_CHILD
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.portal.bean.JddPaymentExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from JDD_PAYMENT
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from JDD_PAYMENT
+    where GUID = #{guid,jdbcType=VARCHAR}
+  </select>
+  
+        <!-- 根据条件查询(通用) -->
+  <select id="selectByWhere" parameterType="com.portal.bean.JddPaymentQuery"  resultMap="BaseResultMap">
+    SELECT    t.GUID, t.USER_ID, t.USER_NAME, LINK_ID, COUNT, REASON, CREATE_TIME, LINK_SYSTEM_ID, RETURN_TIME, RULE_CHILD,
+         (select r.CLASS_NAME from JDD_RULE r where r.GUID = t.RULE_CHILD) as CHILD_NAME
+      FROM JDD_PAYMENT t join (SELECT user_unit,user_id FROM user_info  u  )  comp on  comp.user_id = t.user_id 
+     WHERE 1=1 
+      <if test="guid != null and guid != '' ">
+      	AND t.GUID = #{guid,jdbcType=VARCHAR}
+      </if>
+      <if test="userId != null and userId != ''">
+      	AND t.USER_ID = #{userId,jdbcType=VARCHAR}
+      </if>
+      <if test="userName != null and userName != ''">
+      	AND t.USER_NAME = #{userName,jdbcType=VARCHAR}
+      </if>
+      <if test="ruleChild != null and ruleChild != '' ">
+      	AND t.RULE_CHILD = #{ruleChild,jdbcType=VARCHAR}
+      </if>
+       <if test="userUnit != null and userUnit != '' ">
+      	AND comp.user_unit = #{userUnit,jdbcType=VARCHAR}
+      </if>   
+      <if test="linkSystemId != null and linkSystemId != '' ">
+      	AND LINK_SYSTEM_ID = #{linkSystemId,jdbcType=VARCHAR}
+      </if>
+      <if test="startDate != null and startDate != ''">
+      	<![CDATA[ AND CREATE_TIME >= #{startDate,jdbcType=TIMESTAMP} ]]>
+      </if>
+      <if test="endDate != null and endDate != '' ">
+      	<![CDATA[ AND CREATE_TIME < #{endDate,jdbcType=TIMESTAMP} + 1 ]]>
+      </if>
+      order by CREATE_TIME DESC
+  </select>
+  
+	<!-- 根据条件查询 按类型分组统计信息 -->
+	<select id="selectByWhereGroupBy" parameterType="com.portal.bean.JddBaserecordQuery"
+		resultMap="BaseResultMap">
+		SELECT
+		RULE_CHILD,
+		(select r.class_name from JDD_RULE r where r.guid = t.rule_child) as
+		CHILD_NAME,
+		SUM(COUNT) as count
+		FROM JDD_PAYMENT t join (SELECT user_unit,user_id FROM user_info  u  )  comp on  comp.user_id = t.user_id 
+		WHERE 1=1
+		<if test="ruleChild != null and ruleChild != '' ">
+			AND RULE_CHILD = #{ruleChild,jdbcType=VARCHAR}
+		</if>
+		 <if test="userUnit != null and userUnit != '' ">
+      	AND comp.user_unit = #{userUnit,jdbcType=VARCHAR}
+       </if>  
+		<if test="startDate != null and startDate != '' ">
+      	<![CDATA[ AND CREATE_TIME >= #{startDate,jdbcType=TIMESTAMP} ]]>
+		</if>
+		<if test="endDate != null and endDate != '' ">
+      	<![CDATA[ AND CREATE_TIME < #{endDate,jdbcType=TIMESTAMP}  + 1]]>
+		</if>
+		GROUP BY RULE_CHILD
+	</select>
+	
+	
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from JDD_PAYMENT
+    where GUID = #{guid,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.portal.bean.JddPaymentExample" >
+    delete from JDD_PAYMENT
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.portal.bean.JddPayment" >
+    insert into JDD_PAYMENT (GUID, USER_ID, USER_NAME, 
+      LINK_ID, COUNT, REASON, 
+      CREATE_TIME)
+    values (#{guid,jdbcType=VARCHAR}, #{userId,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR}, 
+      #{linkId,jdbcType=VARCHAR}, #{count,jdbcType=DECIMAL}, #{reason,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.portal.bean.JddPayment" >
+    insert into JDD_PAYMENT
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="guid != null" >
+        GUID,
+      </if>
+      <if test="userId != null" >
+        USER_ID,
+      </if>
+      <if test="userName != null" >
+        USER_NAME,
+      </if>
+      <if test="linkId != null" >
+        LINK_ID,
+      </if>
+      <if test="count != null" >
+        COUNT,
+      </if>
+      <if test="reason != null" >
+        REASON,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+      <if test="linkSystemId != null" >
+        LINK_SYSTEM_ID,
+      </if>
+      <if test="returnTime != null" >
+        RETURN_TIME,
+      </if>
+      <if test="ruleChild != null" >
+        RULE_CHILD,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="guid != null" >
+        #{guid,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null" >
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="linkId != null" >
+        #{linkId,jdbcType=VARCHAR},
+      </if>
+      <if test="count != null" >
+        #{count,jdbcType=DECIMAL},
+      </if>
+      <if test="reason != null" >
+        #{reason,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="linkSystemId != null" >
+        #{linkSystemId,jdbcType=VARCHAR},
+      </if>
+      <if test="returnTime != null" >
+        #{returnTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="ruleChild != null" >
+        #{ruleChild,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.portal.bean.JddPaymentExample" resultType="java.lang.Integer" >
+    select count(*) from JDD_PAYMENT
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update JDD_PAYMENT
+    <set >
+      <if test="record.guid != null" >
+        GUID = #{record.guid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userId != null" >
+        USER_ID = #{record.userId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userName != null" >
+        USER_NAME = #{record.userName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.linkId != null" >
+        LINK_ID = #{record.linkId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.count != null" >
+        COUNT = #{record.count,jdbcType=DECIMAL},
+      </if>
+      <if test="record.reason != null" >
+        REASON = #{record.reason,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null" >
+        CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update JDD_PAYMENT
+    set GUID = #{record.guid,jdbcType=VARCHAR},
+      USER_ID = #{record.userId,jdbcType=VARCHAR},
+      USER_NAME = #{record.userName,jdbcType=VARCHAR},
+      LINK_ID = #{record.linkId,jdbcType=VARCHAR},
+      COUNT = #{record.count,jdbcType=DECIMAL},
+      REASON = #{record.reason,jdbcType=VARCHAR},
+      CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.portal.bean.JddPayment" >
+    update JDD_PAYMENT
+    <set >
+      <if test="userId != null" >
+        USER_ID = #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null" >
+        USER_NAME = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="linkId != null" >
+        LINK_ID = #{linkId,jdbcType=VARCHAR},
+      </if>
+      <if test="count != null" >
+        COUNT = #{count,jdbcType=DECIMAL},
+      </if>
+      <if test="reason != null" >
+        REASON = #{reason,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where GUID = #{guid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.portal.bean.JddPayment" >
+    update JDD_PAYMENT
+    set USER_ID = #{userId,jdbcType=VARCHAR},
+      USER_NAME = #{userName,jdbcType=VARCHAR},
+      LINK_ID = #{linkId,jdbcType=VARCHAR},
+      COUNT = #{count,jdbcType=DECIMAL},
+      REASON = #{reason,jdbcType=VARCHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP}
+    where GUID = #{guid,jdbcType=VARCHAR}
+  </update>
+</mapper>

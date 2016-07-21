@@ -1,0 +1,124 @@
+@charset "utf-8";
+body{font-family:"微软雅黑";margin:0 auto;}
+p,ul,h1,h2,h3,h4,h5,h6{margin:0;padding:0;}
+li{ list-style:none;*vertical-align:bottom;}
+a{ text-decoration:none;outline:none;blur:expression(this.onFocus=this.blur());}
+button{outline:none;}
+img{ border:0;}
+
+/* home主页面 */
+.jddindex{width:1000px;margin:0 auto;margin-top:0px;}
+.jddnotice{height:40px;font-size:14px;padding-left:40px;margin-top:10px;line-height:30px;border-top:1px solid #ebedee;border-bottom:1px solid #ebedee;background:#FFFFFF url(/img/home/noticeimg.png) 10px 12px no-repeat;}
+.jddshow{margin-top:10px;overflow:hidden;}
+.overflowS li{height:40px;line-height:40px;font-size:12px;}
+.jddshowLeft{width:370px;height:220px;border:1px solid #ebedee;float:left;background:#FFFFFF;}
+.jddshowLTop{height:120px;margin:0 10px;border-bottom:1px solid #ebedee;}
+.jddshowLTop .jddletopimg{margin:30px 0 0 20px;float:left;width:60px;height:60px;}
+.jddshowLTop .jddshowLTopRp{float:left;padding:40px 0 0 10px;}
+.jddshowLTop .jddshowLTopRp span{ display: block;font-size:12px;padding-bottom:5px;}
+.jddshowLTop .jddshowLTopRp span.jddnumB b{font-size:16px;color:#F2636D;font-weight:bold;}
+ .jddshowLBot ul li{float:left;width:120px;margin-top:15px;padding:0 40px 0 20px;height:70px;border-right:1px solid #ebedee;}
+.jddshowLBot ul li img{width:33px;height:33px;border-radius:33px;margin: 0px 0 10px 15px;}
+.jddshowLBot ul li a{width:60px;height:30px;line-height:30px;text-align:center; display:block;font-size:12px; color:#333333;text-decoration:none;}
+.jddshowLBot ul li a p{width:60px;height:30px;line-height:30px;text-align:center; display:block;font-size:14px; color:#333333;margin: 0 0 0 7px;}
+.jddshowMid{width:400px;float:left;margin-left:20px;padding:0 20px;border:1px solid #ebedee;height:220px;background:#FFFFFF;}
+.jddshowMid h3,.jddshowRight h3,.jddrecord h3{height:40px;line-height:40px; border-bottom: 2px solid #ebedee;font-weight:normal;font-size:14px;}
+.jddshowMid h3 a,.jddshowRight h3 a,.jddrecord h3 a{float:right;color:#666666;font-size:12px;}
+.jddshowMidUl li{height:35px;line-height:35px; font-size:12px;border-bottom:1px dashed #ebedee;}
+.jddshowMidUl li span{float:left;margin-right:10px;}
+.jddshowMidUl li span b{color: #f2636d;margin: 0 2px;font-weight:normal;}
+.jddshowRight{float:left;width:210px;height:220px;border:1px solid #ebedee;border-left:0px;padding:0 20px;background:#FFFFFF;}
+.rankjdd li{height:35px;line-height:35px;font-size:12px;border-bottom:1px dashed #ebedee;}
+.rankjdd li span{float:left;}
+.rankjdd li span.rankjdd2{width:14px;height:19px;background: url("/img/home/grayrankbg.png");color:#666666;line-height:17px;text-align:center;font-size:12px;margin-top:10px;}
+.rankjdd li span.rankjdd2Red{background: url("/img/home/redrankbg.png");color:#FFFFFF;}
+.rankjdd li span.rankjdd3{margin-left:15px;width:80px;}
+.jddtable{margin:15px 0;overflow:hidden;}
+.jddtableLeft{width:370px;float:left;}
+.jddtableLeft h3{font-size:16px;height:40px;line-height:40px;font-weight:bold;}
+.jddtableLtext{border:1px solid #ebedee;overflow:hidden; background:#FFFFFF;}
+.jddtableLtextT,.jddrecordTP{height:30px;line-height:30px;border-bottom:1px solid #ebedee;width:370px;}
+.jddtableLtextT span{display:block;float:left;width:184px;text-align:center;font-size:14px;color:#000000;}
+.spanRslide{border-right:1px solid #ebedee;}
+.jddtablextL{width:184px;border-right:1px solid #ebedee;height:180px;float:left;}
+.jddtableLtextCon{height:180px;width:370px;}
+.jddtablextL p{padding-left:30px;height:35px;line-height:35px;font-size:12px;    border-bottom: 1px dashed #ebedee;}
+.jddtablextL p span{margin-right:20px;}
+.jddtablextL22{border-right:0px;}
+.totalnumb{border-top:1px solid #ebedee;width:370px;height:35px;}
+.totalnumb p{width:184px;float:left;padding-left:30px;line-height:35px;}
+.totalnumb p span{float:left;font-size:14px;margin-right:20px;}
+.jddrecordText{border:1px solid #ebedee;height:247px; background:#FFFFFF;}
+.jddrecord h3{border-bottom:0px;font-size:16px;height:40px;line-height:40px;font-weight:bold;}
+.jddrecord h3 a{font-weight:normal;font-size:12px;}
+.jddrecord{float:left;width:608px;margin-left:20px;}
+.jddrecordTP{width:608px;}
+.jddrecordTP span,.jddrecordTtext p span{text-align:center; display:block;float:left;font-size:12px;}
+.jddrecordTP1{width:60px;}
+.jddrecordTP2{width:140px;}
+.jddrecordTP3{width:60px;}
+.jddrecordTP4{width:180px;}
+.jddrecordTP5{width:160px;}
+.jddrecordTtext p{height:35px; line-height:35px;border-bottom:1px dashed #ebedee;}
+.overflowS{height:30px;overflow:hidden;}
+.navbar-nav > li > a { padding-top: 10px; padding-bottom: 10px; line-height: 40px;}
+
+/* 赚取吉点点页面 */
+.jdrule{width:1000px;margin:0 auto;}
+.jdruletop{background:#FFFFFF;border:1px solid #ebedee;padding-bottom:10px;overflow:hidden; margin-top: 20px;}
+.jdruletop h3{color:#666666;border-bottom:1px solid #ebedee;font-weight:bold;font-size:14px;height:35px;line-height:35px;padding-left:10px;}
+.jdruletop p{padding-left:10px;height:25px;line-height:25px;font-size:12px;color:#666666;}
+.jdruletop p.jdrulepL{padding-left:25px;}
+.jdrulemid{height:35px;background:#FFFFFF; border:1px solid #ebedee;font-size:12px;line-height:35px;padding-left:10px;}
+.jdrulemid p{float:left;color:#666666;}
+.jdrulemid p b{margin:0 5px;color:#f2636d;font-weight:normal;}
+.jdrulemid  a{background:#f3f3f3;margin-top:5px;font-weight:bold;float:right;margin-right:15px; color:#000000;display:block;height:26px;width:70px;text-align:center;line-height:26px;}
+.jdrulebott{margin-top:10px;}
+.jdrulebott h3{height:30px;line-height:30px;font-size:14px;color:#666666;font-weight:bold;}
+.jdruletable{border:1px solid #ebedee; overflow:hidden;}
+.jdruletable .jdruletableT{width:100%;height:35px; border-bottom:1px solid #ebedee; line-height:35px;font-weight:bold;font-size:14px;padding-left:10px;}
+.jdruletable .jdruletableT span{float:left;}
+.jdruletable .jdruletableTS1{width:100px;}
+.jdruletable .jdruletableTS2{width:230px;}
+.jdruletable .jdruletableTS3{width:200px;}
+.jdruletable .jdruletableTS4{width:120px;}
+.jdruleLE{margin:10px 0 60px 0;overflow:hidden;}
+.jdruleLeft{width:720px;float:left;}
+.jdruletableBody .jdruletableT{font-weight:normal;}
+.jdruleRight{background:#FFFFFF;width:258px;border:1px solid #ebedee;margin-left:20px;float:left;}
+.jdruleRight ul{overflow:hidden;}
+.jdruleRight ul li{height:160px;width:258px;border-bottom:1px solid #ebedee;}
+.jdruleRight ul li img{margin:20px 0 0  45px;text-align:center;width:170px; height:82px;}
+.jdruleRight ul li p{height:35px;line-height:35px;width:258px;}
+.jdruleRight ul li p a{font-size:14px; color:#666666;text-align:center; display:block;}
+
+.makeJddModal01{width:500px;height:110px;border:1px solid #ebedee;margin-left: 40px;padding: 10px}
+.makeJddModal01 h3{font-weight:bold;font-size:14px;height:35px;line-height:35px;padding-left:10px;}
+.makeJddModal01 p{padding-left:10px;height:25px;line-height:25px;font-size:10px;}
+.makeJddModal02{width:500px;height:110px;margin-left: 40px;margin-top: 20px;padding: 10px}
+.makeJddModal02 h3{font-weight:bold;font-size:14px;height:35px;line-height:35px;padding-left:14px;}
+.makeJddModal02 p{padding-left:10px;height:25px;line-height:25px;font-size:14px;}
+.makeJddModal02 p b{color: blue;}
+
+.totalnumbL1{background:#5dace2;}
+.totalnumbR2{background:#f9828a;}
+.totalnumb .totalnumbL1 span, .totalnumb .totalnumbR2 span {color: #FFFFFF;font-size: 12px;}
+.jddrecordTtextHover{background:#f7f7f7;}
+.jddrecordTtextHover span{color:#5dace2;}
+.footer{width:1000px;height:110px; line-height:110px;margin:0 auto; overflow:hidden;}
+.footer p{float:left;font-size:15px;text-align:center; color:#666666;margin-left:20px;}
+.footerout{background:#ececec;clear:both;}
+.jdrulemid button{width:60px;float:right;height:25px;background:#999999;color:#FFFFFF;font-size:12px;font-weight:normal;text-shadow:none;line-height:23px;padding:0px;margin:5px 15px 0 0;}
+#exchagebuto{background:#1089e4;color:#FFFFFF;}
+.return_navout,.return_nav{width:1000px!important;}
+.jdruleRight ul li.linoborder{border:0;}
+.return_nav span#lastTitle{color:#1089e4;}
+.rankjdd4{float:right;}
+.dabaike{float:right;font-size:12px;color:#FFFFFF;text-decoration:none;line-height:50px;margin-right:10px;}
+.dabaike:hover{color:#FFFFFF;text-decoration:none;}
+.footer span {float:left;}
+.footer span a{color:#666666;margin-right:15px;}
+.footer{padding-left:300px;}
+
+
+

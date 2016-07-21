@@ -1,0 +1,46 @@
+p {
+	margin: 0;
+	padding: 0;
+}
+
+.contentAll {
+	float: left;
+	width: 530px;
+	margin: 0 auto;
+}
+
+.titlePrompt {
+	float: left;
+	overflow: hidden;
+	padding: 15px 0 15px 40px;
+	clear: both;
+	font-weight: bold;
+}
+
+.enableSet {
+	float: left;
+	overflow: hidden;
+	padding: 15px 0 10px 80px;
+	clear: both;
+}
+
+.limitSet {
+	float: left;
+	overflow: hidden;
+	padding: 5px 0 15px 95px;
+	clear: both;
+	width: 443px;
+}
+
+.setInput {
+	width: 40px;
+	margin: 0 10px 0 10px;
+	color: black;
+}
+
+.setButton {
+	float: right;
+	margin-left: 30px;
+	width: 50px;
+	color: black;
+}

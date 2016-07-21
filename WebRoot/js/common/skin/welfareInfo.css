@@ -1,0 +1,27 @@
+/* 福利管理模块用样式 */
+.outlook-welfare {
+	width: 100%;
+	height:100%;
+	padding-left:20px;
+	padding-right:20px;
+	padding-bottom:20px;
+	padding-top:30px;
+	background-color: rgba(220,220,220,0.5);
+
+}
+.ziti{
+	font-family : 微软雅黑,宋体;
+	font-size : 2em;
+	color : #38B0DE;
+	font-weight:bolder;
+ 	
+}
+.outlook-air{
+	width: 100px;
+	height: 100px;
+	border: 1px solid black;
+	margin:0 auto;
+	background-color:#ffffff;
+}
+
+

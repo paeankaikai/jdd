@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.portal.mapper.JddJkrecordMapper" >
+  <resultMap id="BaseResultMap" type="com.portal.bean.JddJkrecord" >
+    <id column="GUID" property="guid" jdbcType="VARCHAR" />
+    <result column="JK_COUNT" property="jkCount" jdbcType="INTEGER" />
+    <result column="COUNT" property="count" jdbcType="INTEGER" />
+    <result column="REASON" property="reason" jdbcType="VARCHAR" />
+    <result column="CREATE_BY" property="createBy" jdbcType="VARCHAR" />
+    <result column="CREATE_NAME" property="createName" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="JK_COUNT_TOTAL" property="jkCountTotal" jdbcType="INTEGER" />
+    <result column="COUNT_TOTAL" property="countTotal" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    GUID, JK_COUNT, COUNT, REASON, CREATE_BY, CREATE_NAME, CREATE_TIME
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.portal.bean.JddJkrecordExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from JDD_JKRECORD
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from JDD_JKRECORD
+    where GUID = #{guid,jdbcType=VARCHAR}
+  </select>
+  
+  <!-- 根据条件查询 -->
+  <select id="selectByWhere" parameterType="com.portal.bean.JddJkrecordQuery"  resultMap="BaseResultMap">
+    SELECT <include refid="Base_Column_List" />
+      FROM JDD_JKRECORD
+     WHERE 1=1 
+      <if test="guid != null and guid != '' ">
+      	AND GUID = #{guid,jdbcType=VARCHAR}
+      </if>
+        <if test="userId != null and userId != '' ">
+      	AND create_by = #{userId,jdbcType=VARCHAR}
+      </if>
+      <if test="startDate != null ">
+      	<![CDATA[ AND CREATE_TIME >= #{startDate,jdbcType=TIMESTAMP} ]]>
+      </if>
+      <if test="endDate != null and endDate != '' ">
+      	<![CDATA[ AND CREATE_TIME < #{endDate,jdbcType=TIMESTAMP} + 1 ]]>
+      </if>
+      order by CREATE_TIME DESC
+  </select>
+  
+  <!-- 查询兑换总数 -->
+  <select id="queryExchangeCountInfo" resultMap="BaseResultMap">
+	select sum(jk_count) as JK_COUNT_TOTAL,
+       sum(count) as COUNT_TOTAL
+	from JDD_JKRECORD
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from JDD_JKRECORD
+    where GUID = #{guid,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.portal.bean.JddJkrecordExample" >
+    delete from JDD_JKRECORD
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.portal.bean.JddJkrecord" >
+    insert into JDD_JKRECORD (GUID, JK_COUNT, COUNT, 
+      REASON, CREATE_BY, CREATE_NAME, 
+      CREATE_TIME)
+    values (#{guid,jdbcType=VARCHAR}, #{jkCount,jdbcType=INTEGER}, #{count,jdbcType=INTEGER}, 
+      #{reason,jdbcType=VARCHAR}, #{createBy,jdbcType=VARCHAR}, #{createName,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.portal.bean.JddJkrecord" >
+    insert into JDD_JKRECORD
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="guid != null" >
+        GUID,
+      </if>
+      <if test="jkCount != null" >
+        JK_COUNT,
+      </if>
+      <if test="count != null" >
+        COUNT,
+      </if>
+      <if test="reason != null" >
+        REASON,
+      </if>
+      <if test="createBy != null" >
+        CREATE_BY,
+      </if>
+      <if test="createName != null" >
+        CREATE_NAME,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="guid != null" >
+        #{guid,jdbcType=VARCHAR},
+      </if>
+      <if test="jkCount != null" >
+        #{jkCount,jdbcType=INTEGER},
+      </if>
+      <if test="count != null" >
+        #{count,jdbcType=INTEGER},
+      </if>
+      <if test="reason != null" >
+        #{reason,jdbcType=VARCHAR},
+      </if>
+      <if test="createBy != null" >
+        #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="createName != null" >
+        #{createName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.portal.bean.JddJkrecordExample" resultType="java.lang.Integer" >
+    select count(*) from JDD_JKRECORD
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update JDD_JKRECORD
+    <set >
+      <if test="record.guid != null" >
+        GUID = #{record.guid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.jkCount != null" >
+        JK_COUNT = #{record.jkCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.count != null" >
+        COUNT = #{record.count,jdbcType=INTEGER},
+      </if>
+      <if test="record.reason != null" >
+        REASON = #{record.reason,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createBy != null" >
+        CREATE_BY = #{record.createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createName != null" >
+        CREATE_NAME = #{record.createName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null" >
+        CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update JDD_JKRECORD
+    set GUID = #{record.guid,jdbcType=VARCHAR},
+      JK_COUNT = #{record.jkCount,jdbcType=INTEGER},
+      COUNT = #{record.count,jdbcType=INTEGER},
+      REASON = #{record.reason,jdbcType=VARCHAR},
+      CREATE_BY = #{record.createBy,jdbcType=VARCHAR},
+      CREATE_NAME = #{record.createName,jdbcType=VARCHAR},
+      CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.portal.bean.JddJkrecord" >
+    update JDD_JKRECORD
+    <set >
+      <if test="jkCount != null" >
+        JK_COUNT = #{jkCount,jdbcType=INTEGER},
+      </if>
+      <if test="count != null" >
+        COUNT = #{count,jdbcType=INTEGER},
+      </if>
+      <if test="reason != null" >
+        REASON = #{reason,jdbcType=VARCHAR},
+      </if>
+      <if test="createBy != null" >
+        CREATE_BY = #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="createName != null" >
+        CREATE_NAME = #{createName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where GUID = #{guid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.portal.bean.JddJkrecord" >
+    update JDD_JKRECORD
+    set JK_COUNT = #{jkCount,jdbcType=INTEGER},
+      COUNT = #{count,jdbcType=INTEGER},
+      REASON = #{reason,jdbcType=VARCHAR},
+      CREATE_BY = #{createBy,jdbcType=VARCHAR},
+      CREATE_NAME = #{createName,jdbcType=VARCHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP}
+    where GUID = #{guid,jdbcType=VARCHAR}
+  </update>
+</mapper>

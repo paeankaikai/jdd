@@ -1,0 +1,108 @@
+@charset "utf-8";
+body{font-family:"微软雅黑";margin:0 auto;}
+p,ul,h1,h2,h3,h4,h5,h6{margin:0;padding:0;}
+li{ list-style:none;*vertical-align:bottom;}
+a{ text-decoration:none;outline:none;blur:expression(this.onFocus=this.blur());}
+button{outline:none;}
+img{ border:0;}
+
+/*----------------------导入详情---------------------*/
+.import_detail,.import_div{width:998px;margin:0 auto;border:1px solid #CCCCCC;}
+.import_detop{padding:0 35px 10px 35px;overflow:hidden;border-bottom:1px solid #CCCCCC;}
+.import_detop .import_detopp1{height:40px;line-height:40px;font-size:14px;}
+.import_detop .import_detextare textarea{height:60px; width:928px;border: 1px solid #CCCCCC;}
+.import_detop .import_detopp2{height:30px;margin-top:10px;}
+.import_detop .import_detopp2 span{display:block;float:left;height:30px;line-height:30px;font-size:14px;width:80px;}
+.import_detop .import_detopp2 input.filejdupdate{position:relative;top:3px;}
+.import_demid{margin-top:20px;border-bottom:1px solid #CCCCCC;border-top:1px solid #CCCCCC;height:40px;line-height:40px;padding-left:15px; font-size:14px;}
+.import_listtable{margin-top:15px;}
+.import_listtableT,.import_divtable .import_divtableT{clear:both;height:35px;border-bottom:1px solid #ebedee; line-height:35px;font-size:14px;color:#666666;padding-left:10px;}
+.import_listtableT span{float:left;}
+.import_listtableT .listtableTS1{width:90px;}
+.import_listtableT .listtableTS2{width:100px;}
+.import_listtableT .listtableTS3{width:100px;}
+.import_listtableT .listtableTS4{width:110px;}
+.import_listtableT .listtableTS5{width:250px;}
+.import_listtableT .listtableTS6{width:120px;}
+.import_listtableT .listtableTS7{width:180px;}
+.import_listtableBody .import_listtableT{border-top:0px;background: #FFFFFF;font-weight:normal;border-bottom:1px dashed #CCCCCC;}
+
+/*-------------------导入页面---------------------*/
+
+.import_div .import_divtop{height:30px;padding:10px 0;}
+.import_divtop a{width:90px;float:left;height:28px;display:block;line-height:28px;text-align:center;color:#333333;font-size:14px;border:1px solid #CCCCCC;margin:0 15px 0 5px;}
+.import_divmid{position:relative;border-bottom:1px solid #ebedee;border-top:1px solid #ebedee;background:#f1f9fb;height:90px;}
+.import_divmiddiv1{margin-top:10px;height:30px;}
+.import_divmiddiv1 p{float:left;width:70px;text-align:right;margin-right:10px;font-size:14px;}
+.import_divmiddiv1 .selectDateSpan{float:left;}
+.import_divmiddiv1 .selectDate{height:26px;border:1px solid #ebedee;width:120px;}
+.import_divmiddiv1 .infodescible{height:26px;border:1px solid #ebedee;width:266px; display:block;float:left;}
+.button_sear_set{position:absolute; right:20px;bottom:10px;}
+.button_sear_set a{width:60px; height:25px; text-decoration:none;background: #999999;color:#FFFFFF; margin-right:20px;display: block;float:left;text-align:center;line-height:24px;font-size:12px;}
+.import_divbott{height:30px;padding:10px 0;}
+#search{background:#1089e4;}
+.import_divbott a{float:right;width:110px;height:26px;font-weight:bold;background:#e5edef;line-height:26px;margin-right:20px;font-size:14px; color:#333333;text-align:center;}
+.import_divtableT span{float:left;}
+.import_divtableTS1{width:60px;}
+.import_divtableTS2{width:120px;}
+.import_divtableTS3{width:360px;}
+.import_divtableTS4{width:150px;}
+.import_divtableTS5{width:140px;}
+.import_divtableTS6{width:70px;}
+.import_divtableBody .import_divtableT{font-weight:normal;}
+.import_divtableBody .import_divtableT{background:none;border-top:0px;}
+
+
+
+/*------------------吉点点微送---------------------*/
+.jdweisong{width:930px;margin:0 auto;}
+.jdweisongTop{padding-left:15px;line-height:35px;font-size:14px;height:35px;border-bottom:1px solid #ebedee;}
+.jdweisongTop p{float:left;}
+.jdweisongTop a{float:right;height:35px; width:100px; display:block;text-align:center;background:#3ba2c3;color:#FFFFFF;}
+.weisongrecord{margin:15px 0 40px 0;overflow:hidden;padding-bottom:20px;}
+.import_divmid{clear:both;background:#FFFFFF;}
+.pageShow{float: right;padding-right: 50px;margin-top: 20px;}
+.weisongrecord .recordtabs a{float:left;display:block;width:110px; height:30px;font-size:14px; color:#333333;margin-right:15px;line-height:30px; text-align:center;}
+.import_divtableT2 .import_divtableTS5{width:150px;}
+.import_divtableT2 .import_divtableTS3{width:120px;}
+.import_divtableT2 .import_divtableTS4{width:430px;}
+
+.jddalert{position:fixed; top:50px;width:700px;margin-left:-350px;left:50%;border:1px solid #CCCCCC;}
+.jddalert h3{height:35px; border-bottom:1px solid #CCCCCC;font-size:14px;text-align:center;line-height:35px;background:#e4e4e4;}
+.jddalert h3 a{float:right;margin-right:15px;font-size:16px; color:#333333;}
+.jddalerttext{width:630px; padding:25px 20px 0 5px;}
+.jddalerttext .jddsongrule{padding-left:25px;height:130px;border:1px solid #CCCCCC;}
+.jddsongrule .psomgtitle{font-size:14px;color:#666666;height:35px;line-height:35px;}
+.jddsongrule .songrulelist{font-size:12px;color:#666666;height:30px; line-height:30px;}
+.gainjdd{margin-top:30px;overflow: hidden;}
+.gainjdd p,.gainjdd p span,.gainjdd p input,.gainjdd p textarea{float:left;}
+.pmar{margin:0 0 30px 50px;}
+.gainjdd p span{height:35px; line-height:35px;font-size:12px;width:80px;color:#666666;}
+.gainjdd p input{height:30px;border:1px solid #ebedee;margin-right:20px;}
+.gainjdd p textarea{width:605px;border:1px solid #ebedee;height:100px;}
+.jddsongbut{height:30px;padding:20px 0;clear:both;width:630px;}
+.jddsongbut a{float:right;width:80px; height:30px; text-align:center;line-height:30px;margin-left:20px;font-size:14px; color:#333333;font-weight:bold;background: #f2f2f2;border:1px solid #CCCCCC;}
+.jddsongbut a.jddbutsure{color:#FFFFFF;background:#3ba2c3;border:1px solid #3ba2c3;}
+@media(min-width: 768px){.modal-dialog{width:100%;}}
+.jdweisongTop a{width:60px; height:25px;text-decoration:none;color:#FFFFFF;background:#1089e4;font-size:12px;line-height:25px;margin:5px 20px 0 0 ;}
+.jdweisongTop p{font-size:12px; color:#666666;}
+.recordtabs{height:40px;line-height:40px;background:#FFFFFF;}
+.weisongrecord  .recordtabs a{float:left;line-height:40px;height:40px;font-size:14px;color:#666666;}
+.recordtabs span{float:left;line-height:40px; font-size:12px;color:#ebedee;}
+.weisongrecord  .recordtabs a.defaultanow{border-bottom:2px solid #1089e4;font-weight:bold;}
+.jdweisong{width:1000px;background:#FFFFFF;}}
+.import_divmiddiv1,.import_divmiddiv1 p{font-size:12px;color:#666666;}
+.import_divmiddiv1 p{text-align:left;padding-left:10px;}
+#outPageContent a,#outPageContent span,#outPageContent span,#outPageContent a{color:#666666;font-size:12px;}
+.surebtom,#jumpPageIn{width:40px; height:25px;color:#FFFFFF;}
+#inPageContent a,#inPageContent span{font-size:12px; color:#666666;}
+.modal-header{padding:0px;}
+#dialogBox_title{background:#1089e4;font-size:14px;}
+#outRecordShow{margin:0 20px;}
+.modal-footer{border-top:0px;}
+.import_divtableBody .import_divtableT{border-bottom:1px dashed #ebedee;}
+.import_divtableBody  span{font-size:12px;}
+.modal-open .modal{overflow:hidden;}
+.popBtn_blue{width:60px!important;margin-right:15px!important;height:25px!important; background:#1089e4!important; color:#FFFFFF!important; font-size:12px!important;line-height:25px!important;}
+.popTitles-normal{background:#1089e4!important;}
+.popTitles{border-radius:0px!important;}

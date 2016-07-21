@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.portal.mapper.LoginVerifyMapper" >
+  <resultMap id="BaseResultMap" type="com.portal.bean.LoginVerify" >
+    <result column="GUID" property="guid" jdbcType="VARCHAR" />
+    <result column="USER_ID" property="userId" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  
+  <select id="queryByGuid" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    GUID,
+    USER_ID,
+    CREATE_TIME
+    from LOGIN_VERIFY
+    where GUID = #{guid,jdbcType=VARCHAR}
+  </select>
+  
+  <insert id="insert" parameterType="com.portal.bean.LoginVerify" >
+    insert into LOGIN_VERIFY (GUID, USER_ID, CREATE_TIME
+      )
+    values (#{guid,jdbcType=VARCHAR}, #{userId,jdbcType=VARCHAR}, sysDate
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.portal.bean.LoginVerify" >
+    insert into LOGIN_VERIFY
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="guid != null" >
+        GUID,
+      </if>
+      <if test="userId != null" >
+        USER_ID,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="guid != null" >
+        #{guid,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+</mapper>

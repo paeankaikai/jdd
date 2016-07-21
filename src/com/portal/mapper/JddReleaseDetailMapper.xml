@@ -1,0 +1,385 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.portal.mapper.JddReleaseDetailMapper" >
+  <resultMap id="BaseResultMap" type="com.portal.bean.JddReleaseDetail" >
+    <id column="GUID" property="guid" jdbcType="VARCHAR" />
+    <result column="RELEASE_ID" property="releaseId" jdbcType="VARCHAR" />
+    <result column="USER_ID" property="userId" jdbcType="VARCHAR" />
+    <result column="USER_NAME" property="userName" jdbcType="VARCHAR" />
+    <result column="JDD_COUNT" property="jddCount" jdbcType="DECIMAL" />
+    <result column="REASON" property="reason" jdbcType="VARCHAR" />
+    <result column="RULE_CHILD" property="ruleChild" jdbcType="VARCHAR" />
+    <result column="SOURCE" property="source" jdbcType="VARCHAR" />
+    <result column="SOURCE_COMP" property="sourceComp" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="CHILD_NAME" property="childName" jdbcType="VARCHAR" />
+    <result column="SOURCE_NAME" property="sourceName" jdbcType="VARCHAR" /> 
+    <result column="USER_COM" property="userCom" jdbcType="VARCHAR" /> 
+     <result column="USER_DEPT" property="userDept" jdbcType="VARCHAR" /> 
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    GUID, RELEASE_ID, USER_ID, USER_NAME, JDD_COUNT, REASON, RULE_CHILD, SOURCE, SOURCE_COMP
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.portal.bean.JddReleaseDetailExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from JDD_RELEASE_DETAIL
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  
+      <!-- 根据条件查询(通用) -->
+  <select id="selectByWhere" parameterType="com.portal.bean.JddReleaseDetailQuery"  resultMap="BaseResultMap">
+    SELECT t.GUID,
+           t.JDD_COUNT,
+           t.CHILD_NAME,
+           t.SOURCE_NAME,
+           t.USER_COM,
+           t.CREATE_TIME
+      FROM JDD_RELEASE_SEARCH_V t 
+     WHERE 1=1 
+      <if test="guid != null and guid != '' ">
+      	AND t.GUID = #{guid,jdbcType=VARCHAR}
+      </if>
+       <if test="ststus != null  ">
+      	AND t.STSTUS=#{ststus,jdbcType=DECIMAL}
+      </if>
+       <if test="userUnit != null and userUnit != '' ">
+      	AND t.user_unit = #{userUnit,jdbcType=VARCHAR}
+       </if>  
+      <if test="userId != null ">
+      	AND t.USER_ID = #{userId,jdbcType=VARCHAR}
+      </if>
+      <if test="ruleGrad != null and ruleGrad != '' ">
+      	AND t.RULE_GRAD = #{ruleGrad,jdbcType=VARCHAR}
+      </if>
+      <if test="ruleFather != null and ruleFather != '' ">
+      	AND t.RULE_Father = #{ruleFather,jdbcType=VARCHAR}
+      </if>
+      <if test="ruleChild != null and ruleChild != '' ">
+      	AND t.RULE_CHILD = #{ruleChild,jdbcType=VARCHAR}
+      </if>
+      <if test="source != null and source != '' ">
+      	AND t.SOURCE = #{source,jdbcType=VARCHAR}
+      </if>
+      <if test="startDate != null and startDate != ''">
+      	<![CDATA[ AND t.CREATE_TIME >= #{startDate,jdbcType=TIMESTAMP} ]]>
+      </if>
+      <if test="endDate != null and endDate != '' ">
+      	<![CDATA[ AND t.CREATE_TIME < #{endDate,jdbcType=TIMESTAMP} + 1 ]]>
+      </if>
+      order by t.CREATE_TIME DESC
+  </select>
+  
+    <!-- 根据条件查询 按类型分组统计信息-->
+  <select id="selectByWhereGroupBy" parameterType="com.portal.bean.JddReleaseDetailQuery"  resultMap="BaseResultMap">
+    SELECT 
+       t.RULE_CHILD,
+       t.SOURCE,
+       t.CHILD_NAME,
+       t.SOURCE_NAME,
+       SUM(t.JDD_COUNT) as jddCount 
+      FROM JDD_RELEASE_SEARCH_V t
+     WHERE 1=1 
+      <if test="guid != null and guid != '' ">
+      	AND t.GUID = #{guid,jdbcType=VARCHAR}
+      </if>
+       <if test="ststus != null  ">
+      	AND t.STSTUS=#{ststus,jdbcType=DECIMAL}
+      </if>
+      <if test="userId != null and userId != ''">
+      	AND t.USER_ID = #{userId,jdbcType=VARCHAR}
+      </if>
+      <if test="userUnit != null and userUnit != '' ">
+      	AND t.user_unit = #{userUnit,jdbcType=VARCHAR}
+      </if>
+      <if test="ruleGrad != null and ruleGrad != '' ">
+      	AND t.RULE_GRAD = #{ruleGrad,jdbcType=VARCHAR}
+      </if>
+      <if test="ruleFather != null and ruleFather != '' ">
+      	AND t.RULE_Father = #{ruleFather,jdbcType=VARCHAR}
+      </if>
+      <if test="ruleChild != null and ruleChild != '' ">
+      	AND t.RULE_CHILD = #{ruleChild,jdbcType=VARCHAR}
+      </if>
+      <if test="source != null and source != '' ">
+      	AND t.SOURCE = #{source,jdbcType=VARCHAR}
+      </if>
+      <if test="startDate != null ">
+      	<![CDATA[ AND t.CREATE_TIME >= #{startDate,jdbcType=TIMESTAMP} ]]>
+      </if>
+      <if test="endDate != null and endDate != '' ">
+      	<![CDATA[ AND t.CREATE_TIME < #{endDate,jdbcType=TIMESTAMP}  + 1]]>
+      </if>
+      GROUP BY t.RULE_CHILD,t.SOURCE,t.CHILD_NAME,t.SOURCE_NAME
+  </select>
+  
+   <select id="selectByExample2" resultMap="BaseResultMap" parameterType="com.portal.bean.JddReleaseDetailExample" >
+    select
+   	 d.GUID, RELEASE_ID, d.USER_ID, USER_NAME, JDD_COUNT, REASON, r.class_name as RULE_CHILD, nvl(s.param_value,d.source) as SOURCE,
+   	  SOURCE_COMP,USER_COM,USER_DEPT
+    from JDD_RELEASE_DETAIL  d join  jdd_rule r on r.guid=d.rule_child
+    left join (select user_id,USER_COM,USER_DEPT from user_info) u on u.user_id=d.user_id
+   left  join (select guid,param_value from sys_parameter where class_type='SOURCE') s on s.guid=d.source
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  
+  
+  
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from JDD_RELEASE_DETAIL
+    where GUID = #{guid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from JDD_RELEASE_DETAIL
+    where GUID = #{guid,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.portal.bean.JddReleaseDetailExample" >
+    delete from JDD_RELEASE_DETAIL
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.portal.bean.JddReleaseDetail" >
+    insert into JDD_RELEASE_DETAIL (GUID, RELEASE_ID, USER_ID, 
+      USER_NAME, JDD_COUNT, REASON, 
+      RULE_CHILD, SOURCE, SOURCE_COMP
+      )
+    values (#{guid,jdbcType=VARCHAR}, #{releaseId,jdbcType=VARCHAR}, #{userId,jdbcType=VARCHAR}, 
+      #{userName,jdbcType=VARCHAR}, #{jddCount,jdbcType=DECIMAL}, #{reason,jdbcType=VARCHAR}, 
+      #{ruleChild,jdbcType=VARCHAR}, #{source,jdbcType=VARCHAR}, #{sourceComp,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.portal.bean.JddReleaseDetail" >
+    insert into JDD_RELEASE_DETAIL
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="guid != null" >
+        GUID,
+      </if>
+      <if test="releaseId != null" >
+        RELEASE_ID,
+      </if>
+      <if test="userId != null" >
+        USER_ID,
+      </if>
+      <if test="userName != null" >
+        USER_NAME,
+      </if>
+      <if test="jddCount != null" >
+        JDD_COUNT,
+      </if>
+      <if test="reason != null" >
+        REASON,
+      </if>
+      <if test="ruleChild != null" >
+        RULE_CHILD,
+      </if>
+      <if test="source != null" >
+        SOURCE,
+      </if>
+      <if test="sourceComp != null" >
+        SOURCE_COMP,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="guid != null" >
+        #{guid,jdbcType=VARCHAR},
+      </if>
+      <if test="releaseId != null" >
+        #{releaseId,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null" >
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="jddCount != null" >
+        #{jddCount,jdbcType=DECIMAL},
+      </if>
+      <if test="reason != null" >
+        #{reason,jdbcType=VARCHAR},
+      </if>
+      <if test="ruleChild != null" >
+        #{ruleChild,jdbcType=VARCHAR},
+      </if>
+      <if test="source != null" >
+        #{source,jdbcType=VARCHAR},
+      </if>
+      <if test="sourceComp != null" >
+        #{sourceComp,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.portal.bean.JddReleaseDetailExample" resultType="java.lang.Integer" >
+    select count(*) from JDD_RELEASE_DETAIL
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update JDD_RELEASE_DETAIL
+    <set >
+      <if test="record.guid != null" >
+        GUID = #{record.guid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.releaseId != null" >
+        RELEASE_ID = #{record.releaseId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userId != null" >
+        USER_ID = #{record.userId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userName != null" >
+        USER_NAME = #{record.userName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.jddCount != null" >
+        JDD_COUNT = #{record.jddCount,jdbcType=DECIMAL},
+      </if>
+      <if test="record.reason != null" >
+        REASON = #{record.reason,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ruleChild != null" >
+        RULE_CHILD = #{record.ruleChild,jdbcType=VARCHAR},
+      </if>
+      <if test="record.source != null" >
+        SOURCE = #{record.source,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sourceComp != null" >
+        SOURCE_COMP = #{record.sourceComp,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update JDD_RELEASE_DETAIL
+    set GUID = #{record.guid,jdbcType=VARCHAR},
+      RELEASE_ID = #{record.releaseId,jdbcType=VARCHAR},
+      USER_ID = #{record.userId,jdbcType=VARCHAR},
+      USER_NAME = #{record.userName,jdbcType=VARCHAR},
+      JDD_COUNT = #{record.jddCount,jdbcType=DECIMAL},
+      REASON = #{record.reason,jdbcType=VARCHAR},
+      RULE_CHILD = #{record.ruleChild,jdbcType=VARCHAR},
+      SOURCE = #{record.source,jdbcType=VARCHAR},
+      SOURCE_COMP = #{record.sourceComp,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.portal.bean.JddReleaseDetail" >
+    update JDD_RELEASE_DETAIL
+    <set >
+      <if test="releaseId != null" >
+        RELEASE_ID = #{releaseId,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null" >
+        USER_ID = #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null" >
+        USER_NAME = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="jddCount != null" >
+        JDD_COUNT = #{jddCount,jdbcType=DECIMAL},
+      </if>
+      <if test="reason != null" >
+        REASON = #{reason,jdbcType=VARCHAR},
+      </if>
+      <if test="ruleChild != null" >
+        RULE_CHILD = #{ruleChild,jdbcType=VARCHAR},
+      </if>
+      <if test="source != null" >
+        SOURCE = #{source,jdbcType=VARCHAR},
+      </if>
+      <if test="sourceComp != null" >
+        SOURCE_COMP = #{sourceComp,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where GUID = #{guid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.portal.bean.JddReleaseDetail" >
+    update JDD_RELEASE_DETAIL
+    set RELEASE_ID = #{releaseId,jdbcType=VARCHAR},
+      USER_ID = #{userId,jdbcType=VARCHAR},
+      USER_NAME = #{userName,jdbcType=VARCHAR},
+      JDD_COUNT = #{jddCount,jdbcType=DECIMAL},
+      REASON = #{reason,jdbcType=VARCHAR},
+      RULE_CHILD = #{ruleChild,jdbcType=VARCHAR},
+      SOURCE = #{source,jdbcType=VARCHAR},
+      SOURCE_COMP = #{sourceComp,jdbcType=VARCHAR}
+    where GUID = #{guid,jdbcType=VARCHAR}
+  </update>
+</mapper>

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.portal.mapper.CommonMapper">
+
+
+	<parameterMap type="java.util.Map" id="getUserCountMap">
+		<parameter property="as_userid" mode="IN" jdbcType="VARCHAR" />
+		<parameter property="as_guid" mode="IN" jdbcType="VARCHAR" />
+		<parameter property="as_relationid" mode="IN" jdbcType="VARCHAR" />
+		<parameter property="an_jddnum" mode="IN" jdbcType="DECIMAL" />
+		<parameter property="as_rulechid" mode="IN" jdbcType="VARCHAR" />
+		<parameter property="as_reason" mode="IN" jdbcType="VARCHAR" />
+		<parameter property="an_result" mode="OUT" jdbcType="DECIMAL" />
+		<parameter property="as_remess" mode="OUT" jdbcType="VARCHAR" />
+	</parameterMap>
+
+	<select id="jddbaserecord" parameterMap="getUserCountMap"
+		statementType="CALLABLE">
+		CALL pk_jdd.jddbaserecord(
+		?,?,?,?,?,?,?,?
+		)
+	</select>
+
+
+
+	<parameterMap type="java.util.Map" id="userinit">
+		<parameter property="as_userid" mode="IN" jdbcType="VARCHAR" />
+		<parameter property="as_username" mode="IN" jdbcType="VARCHAR" />
+		<parameter property="as_usercomp" mode="IN" jdbcType="VARCHAR" />
+		<parameter property="as_usercompdesc" mode="IN" jdbcType="VARCHAR" />
+		<parameter property="as_userposition" mode="IN" jdbcType="VARCHAR" />
+		<parameter property="as_userdept" mode="IN" jdbcType="VARCHAR" />
+		<parameter property="an_status" mode="IN" jdbcType="DECIMAL" />
+		<parameter property="an_result" mode="OUT" jdbcType="DECIMAL" />
+		<parameter property="as_remess" mode="OUT" jdbcType="VARCHAR" />
+	</parameterMap>
+
+	<select id="jdduserinit" parameterMap="userinit" statementType="CALLABLE">
+		CALL pk_jdd.jdduserinit(
+		?,?,?,?,?,?,?,?,?
+		)
+	</select>
+
+
+
+	<parameterMap type="java.util.Map" id="change">
+		<parameter property="as_userid" mode="IN" jdbcType="VARCHAR" />
+		<parameter property="as_username" mode="IN" jdbcType="VARCHAR" />
+		<parameter property="an_jknum" mode="IN" jdbcType="DECIMAL" />
+		<parameter property="an_jddnum" mode="IN" jdbcType="DECIMAL" />
+		<parameter property="as_reason" mode="IN" jdbcType="VARCHAR" />
+		<parameter property="an_result" mode="OUT" jdbcType="DECIMAL" />
+		<parameter property="as_remess" mode="OUT" jdbcType="VARCHAR" />
+	</parameterMap>
+
+	<select id="exchange" parameterMap="change" statementType="CALLABLE">
+		CALL pk_jdd.exchange(
+		?,?,?,?,?,?,?
+		)
+	</select>
+
+
+
+
+</mapper>

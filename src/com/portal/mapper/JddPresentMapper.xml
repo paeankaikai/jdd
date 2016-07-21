@@ -1,0 +1,313 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.portal.mapper.JddPresentMapper" >
+  <resultMap id="BaseResultMap" type="com.portal.bean.JddPresent" >
+    <id column="GUID" property="guid" jdbcType="VARCHAR" />
+    <result column="FROM_USER_ID" property="fromUserId" jdbcType="VARCHAR" />
+    <result column="FROM_USER_NAME" property="fromUserName" jdbcType="VARCHAR" />
+    <result column="FROM_USER_COM" property="fromUserCom" jdbcType="VARCHAR" />
+    <result column="TO_USER_ID" property="toUserId" jdbcType="VARCHAR" />
+    <result column="TO_USER_NAME" property="toUserName" jdbcType="VARCHAR" />
+    <result column="TO_USER_COM" property="toUserCom" jdbcType="VARCHAR" />
+    <result column="COUNT" property="count" jdbcType="INTEGER" />
+    <result column="REASON" property="reason" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="FRIEND_TOTAL" property="friendTotal" jdbcType="INTEGER" />
+    <result column="IN_TOTAL" property="inTotal" jdbcType="INTEGER" />
+    <result column="OUT_TOATAL" property="outToatal" jdbcType="INTEGER" />  
+  </resultMap>
+  
+  <resultMap id="TotalResultMap" type="com.portal.bean.JddPresentTotalInfo" >
+    <result column="FRIEND_TOTAL" property="friendTotal" jdbcType="INTEGER" />
+    <result column="IN_TOTAL" property="inTotal" jdbcType="INTEGER" />
+    <result column="OUT_TOATAL" property="outToatal" jdbcType="INTEGER" />  
+  </resultMap>
+  
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    GUID, FROM_USER_ID, FROM_USER_NAME, FROM_USER_COM, TO_USER_ID, TO_USER_NAME,TO_USER_COM, COUNT, REASON, CREATE_TIME
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.portal.bean.JddPresentExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from JDD_PRESENT
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from JDD_PRESENT
+    where GUID = #{guid,jdbcType=VARCHAR}
+  </select>
+  <!-- 根据条件查询 -->
+  <select id="selectByWhere" parameterType="com.portal.bean.JddPresentQuery"  resultMap="BaseResultMap">
+    SELECT <include refid="Base_Column_List" /> FROM JDD_PRESENT WHERE 1=1 
+      <if test="fromUserId != null and fromUserId != '' ">
+      	AND FROM_USER_ID = #{fromUserId,jdbcType=VARCHAR}
+      </if>
+      <if test="fromUserName != null and fromUserName != '' ">
+      	AND FROM_USER_NAME = #{fromUserName,jdbcType=VARCHAR}
+      </if>
+      <if test="toUserId != null and toUserId != '' ">
+      	AND TO_USER_ID = #{toUserId,jdbcType=VARCHAR}
+      </if>
+      <if test="toUserName != null and toUserName != '' ">
+      	AND TO_USER_NAME = #{toUserName,jdbcType=VARCHAR}
+      </if>
+      <if test="startDate != null ">
+      	<![CDATA[ AND CREATE_TIME >= #{startDate,jdbcType=TIMESTAMP} ]]>
+      </if>
+      <if test="endDate != null and endDate != '' ">
+      	<![CDATA[ AND CREATE_TIME < #{endDate,jdbcType=TIMESTAMP} + 1 ]]>
+      </if>
+      ORDER BY CREATE_TIME DESC
+  </select>
+  
+    <!-- 统计信息查询 -->
+  <select id="queryTotalInfo" parameterType="java.lang.String"  resultMap="TotalResultMap">
+	select (select count(1)
+	          from (select t.to_user_name as tmpName
+	                  from JDD_PRESENT t
+	                 where t.from_user_id = #{userId,jdbcType=VARCHAR}
+	                union
+	                select t.from_user_name  as tmpName
+	                  from JDD_PRESENT t
+	                 where t.to_user_id = #{userId,jdbcType=VARCHAR}) tmp) as FRIEND_TOTAL,
+	       (select sum(t.count)
+	          from JDD_PRESENT t
+	         where t.to_user_id = #{userId,jdbcType=VARCHAR}) as IN_TOTAL,
+	       (select sum(t.count)
+	          from JDD_PRESENT t
+	         where t.from_user_id = #{userId,jdbcType=VARCHAR}) as OUT_TOATAL
+	  from dual
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from JDD_PRESENT
+    where GUID = #{guid,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.portal.bean.JddPresentExample" >
+    delete from JDD_PRESENT
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.portal.bean.JddPresent" >
+    insert into JDD_PRESENT (GUID, FROM_USER_ID, FROM_USER_NAME, 
+      TO_USER_ID, TO_USER_NAME, COUNT, 
+      REASON, CREATE_TIME,FROM_USER_COM,TO_USER_COM)
+    values (#{guid,jdbcType=VARCHAR}, #{fromUserId,jdbcType=VARCHAR}, #{fromUserName,jdbcType=VARCHAR}, 
+      #{toUserId,jdbcType=VARCHAR}, #{toUserName,jdbcType=VARCHAR}, #{count,jdbcType=INTEGER}, 
+      #{reason,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP},#{fromUserCom,jdbcType=VARCHAR},#{toUserCom,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.portal.bean.JddPresent" >
+    insert into JDD_PRESENT
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="guid != null" >
+        GUID,
+      </if>
+      <if test="fromUserId != null" >
+        FROM_USER_ID,
+      </if>
+      <if test="fromUserName != null" >
+        FROM_USER_NAME,
+      </if>
+      <if test="toUserId != null" >
+        TO_USER_ID,
+      </if>
+      <if test="toUserName != null" >
+        TO_USER_NAME,
+      </if>
+      <if test="count != null" >
+        COUNT,
+      </if>
+      <if test="reason != null" >
+        REASON,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="guid != null" >
+        #{guid,jdbcType=VARCHAR},
+      </if>
+      <if test="fromUserId != null" >
+        #{fromUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="fromUserName != null" >
+        #{fromUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="toUserId != null" >
+        #{toUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="toUserName != null" >
+        #{toUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="count != null" >
+        #{count,jdbcType=INTEGER},
+      </if>
+      <if test="reason != null" >
+        #{reason,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.portal.bean.JddPresentExample" resultType="java.lang.Integer" >
+    select count(*) from JDD_PRESENT
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update JDD_PRESENT
+    <set >
+      <if test="record.guid != null" >
+        GUID = #{record.guid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fromUserId != null" >
+        FROM_USER_ID = #{record.fromUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fromUserName != null" >
+        FROM_USER_NAME = #{record.fromUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.toUserId != null" >
+        TO_USER_ID = #{record.toUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.toUserName != null" >
+        TO_USER_NAME = #{record.toUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.count != null" >
+        COUNT = #{record.count,jdbcType=INTEGER},
+      </if>
+      <if test="record.reason != null" >
+        REASON = #{record.reason,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null" >
+        CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update JDD_PRESENT
+    set GUID = #{record.guid,jdbcType=VARCHAR},
+      FROM_USER_ID = #{record.fromUserId,jdbcType=VARCHAR},
+      FROM_USER_NAME = #{record.fromUserName,jdbcType=VARCHAR},
+      TO_USER_ID = #{record.toUserId,jdbcType=VARCHAR},
+      TO_USER_NAME = #{record.toUserName,jdbcType=VARCHAR},
+      COUNT = #{record.count,jdbcType=INTEGER},
+      REASON = #{record.reason,jdbcType=VARCHAR},
+      CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.portal.bean.JddPresent" >
+    update JDD_PRESENT
+    <set >
+      <if test="fromUserId != null" >
+        FROM_USER_ID = #{fromUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="fromUserName != null" >
+        FROM_USER_NAME = #{fromUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="toUserId != null" >
+        TO_USER_ID = #{toUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="toUserName != null" >
+        TO_USER_NAME = #{toUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="count != null" >
+        COUNT = #{count,jdbcType=INTEGER},
+      </if>
+      <if test="reason != null" >
+        REASON = #{reason,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where GUID = #{guid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.portal.bean.JddPresent" >
+    update JDD_PRESENT
+    set FROM_USER_ID = #{fromUserId,jdbcType=VARCHAR},
+      FROM_USER_NAME = #{fromUserName,jdbcType=VARCHAR},
+      TO_USER_ID = #{toUserId,jdbcType=VARCHAR},
+      TO_USER_NAME = #{toUserName,jdbcType=VARCHAR},
+      COUNT = #{count,jdbcType=INTEGER},
+      REASON = #{reason,jdbcType=VARCHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP}
+    where GUID = #{guid,jdbcType=VARCHAR}
+  </update>
+</mapper>

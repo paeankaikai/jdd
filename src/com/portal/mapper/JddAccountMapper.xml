@@ -1,0 +1,319 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.portal.mapper.JddAccountMapper" >
+  <resultMap id="BaseResultMap" type="com.portal.bean.JddAccount" >
+    <id column="GUID" property="guid" jdbcType="VARCHAR" />
+    <result column="YEAR_NO" property="yearNo" jdbcType="VARCHAR" />
+    <result column="USER_ID" property="userId" jdbcType="VARCHAR" />
+    <result column="USER_NAME" property="userName" jdbcType="VARCHAR" />
+    <result column="USER_COM" property="userCom" jdbcType="VARCHAR" />
+    <result column="USER_POSITION" property="userPosition" jdbcType="VARCHAR" />
+    <result column="LY_NUM" property="lyNum" jdbcType="DECIMAL" />
+    <result column="LY_COST_NUM" property="lyCostNum" jdbcType="DECIMAL" />
+    <result column="CY_NUM" property="cyNum" jdbcType="DECIMAL" />
+    <result column="CY_COST_NUM" property="cyCostNum" jdbcType="DECIMAL" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    GUID, YEAR_NO, USER_ID, USER_NAME, USER_COM, USER_POSITION, LY_NUM, LY_COST_NUM, CY_NUM, CY_COST_NUM
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.portal.bean.JddAccountExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from JDD_ACCOUNT
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByUserId" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from JDD_ACCOUNT
+    where USER_ID = #{userId,jdbcType=VARCHAR}
+     and year_no =to_char(sysdate, 'yyyy' )
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from JDD_ACCOUNT
+    where GUID = #{guid,jdbcType=VARCHAR}
+  </select>
+  <!-- 根据条件查询 -->
+  <select id="selectByWhere" parameterType="com.portal.bean.JddAccount"  resultMap="BaseResultMap">
+    SELECT <include refid="Base_Column_List" /> FROM JDD_ACCOUNT WHERE 1=1 
+      <if test="yearNo != null and yearNo != '' ">
+        AND YEAR_NO = #{yearNo,jdbcType=VARCHAR}
+      </if>
+      <if test="userId != null and userId != '' ">
+      	AND USER_ID = #{userId,jdbcType=VARCHAR}
+      </if>
+      <if test="userName != null and userName != '' ">
+        AND USER_NAME = #{userName,jdbcType=VARCHAR}
+      </if>
+      <if test="lyNum != null and lyNum != '' ">
+        AND LY_NUM = #{lyNum,jdbcType=VARCHAR}
+      </if>
+      <if test="lyCostNum != null and lyCostNum != '' ">
+        AND LY_COST_NUM = #{lyCostNum,jdbcType=INTEGER}
+      </if>
+      <if test="cyNum != null and cyNum != '' ">
+        AND CY_NUM = #{cyNum,jdbcType=INTEGER}
+      </if>
+      <if test="cyCostNum != null and cyCostNum != '' ">
+        AND CY_COST_NUM = #{cyCostNum,jdbcType=INTEGER}
+      </if>
+  </select>
+  <select id="orderByNum" parameterType="com.portal.bean.JddAccount"  resultMap="BaseResultMap">
+    SELECT   a.GUID, a.YEAR_NO, a.USER_ID, a.USER_NAME, u.USER_COM, u.USER_POSITION, a.LY_NUM,
+     a.LY_COST_NUM, a.CY_NUM, a.CY_COST_NUM ,
+    (a.CY_NUM - a.CY_COST_NUM ) as MYJDD  FROM JDD_ACCOUNT a join user_info u  on a.user_id=u.user_id WHERE 1=1 
+      <if test="yearNo != null and yearNo != '' ">
+        AND YEAR_NO = #{yearNo,jdbcType=VARCHAR}
+      </if>
+      <if test="userId != null and userId != '' ">
+      	AND USER_ID = #{userId,jdbcType=VARCHAR}
+      </if>
+      <if test="userName != null and userName != '' ">
+        AND USER_NAME = #{userName,jdbcType=VARCHAR}
+      </if>
+      <if test="lyNum != null and lyNum != '' ">
+        AND LY_NUM = #{lyNum,jdbcType=VARCHAR}
+      </if>
+      <if test="lyCostNum != null and lyCostNum != '' ">
+        AND LY_COST_NUM = #{lyCostNum,jdbcType=INTEGER}
+      </if>
+      <if test="cyNum != null and cyNum != '' ">
+        AND CY_NUM = #{cyNum,jdbcType=INTEGER}
+      </if>
+      <if test="cyCostNum != null and cyCostNum != '' ">
+        AND CY_COST_NUM = #{cyCostNum,jdbcType=INTEGER}
+      </if>
+      ORDER BY MYJDD DESC,user_id
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from JDD_ACCOUNT
+    where GUID = #{guid,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.portal.bean.JddAccountExample" >
+    delete from JDD_ACCOUNT
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.portal.bean.JddAccount" >
+    insert into JDD_ACCOUNT (GUID, YEAR_NO, USER_ID, 
+      USER_NAME, LY_NUM, LY_COST_NUM, 
+      CY_NUM, CY_COST_NUM)
+    values (#{guid,jdbcType=VARCHAR}, #{yearNo,jdbcType=VARCHAR}, #{userId,jdbcType=VARCHAR}, 
+      #{userName,jdbcType=VARCHAR}, #{lyNum,jdbcType=DECIMAL}, #{lyCostNum,jdbcType=DECIMAL}, 
+      #{cyNum,jdbcType=DECIMAL}, #{cyCostNum,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="com.portal.bean.JddAccount" >
+    insert into JDD_ACCOUNT
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="guid != null" >
+        GUID,
+      </if>
+      <if test="yearNo != null" >
+        YEAR_NO,
+      </if>
+      <if test="userId != null" >
+        USER_ID,
+      </if>
+      <if test="userName != null" >
+        USER_NAME,
+      </if>
+      <if test="lyNum != null" >
+        LY_NUM,
+      </if>
+      <if test="lyCostNum != null" >
+        LY_COST_NUM,
+      </if>
+      <if test="cyNum != null" >
+        CY_NUM,
+      </if>
+      <if test="cyCostNum != null" >
+        CY_COST_NUM,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="guid != null" >
+        #{guid,jdbcType=VARCHAR},
+      </if>
+      <if test="yearNo != null" >
+        #{yearNo,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null" >
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="lyNum != null" >
+        #{lyNum,jdbcType=DECIMAL},
+      </if>
+      <if test="lyCostNum != null" >
+        #{lyCostNum,jdbcType=DECIMAL},
+      </if>
+      <if test="cyNum != null" >
+        #{cyNum,jdbcType=DECIMAL},
+      </if>
+      <if test="cyCostNum != null" >
+        #{cyCostNum,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.portal.bean.JddAccountExample" resultType="java.lang.Integer" >
+    select count(*) from JDD_ACCOUNT
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update JDD_ACCOUNT
+    <set >
+      <if test="record.guid != null" >
+        GUID = #{record.guid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.yearNo != null" >
+        YEAR_NO = #{record.yearNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userId != null" >
+        USER_ID = #{record.userId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userName != null" >
+        USER_NAME = #{record.userName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.lyNum != null" >
+        LY_NUM = #{record.lyNum,jdbcType=DECIMAL},
+      </if>
+      <if test="record.lyCostNum != null" >
+        LY_COST_NUM = #{record.lyCostNum,jdbcType=DECIMAL},
+      </if>
+      <if test="record.cyNum != null" >
+        CY_NUM = #{record.cyNum,jdbcType=DECIMAL},
+      </if>
+      <if test="record.cyCostNum != null" >
+        CY_COST_NUM = #{record.cyCostNum,jdbcType=DECIMAL},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update JDD_ACCOUNT
+    set GUID = #{record.guid,jdbcType=VARCHAR},
+      YEAR_NO = #{record.yearNo,jdbcType=VARCHAR},
+      USER_ID = #{record.userId,jdbcType=VARCHAR},
+      USER_NAME = #{record.userName,jdbcType=VARCHAR},
+      LY_NUM = #{record.lyNum,jdbcType=DECIMAL},
+      LY_COST_NUM = #{record.lyCostNum,jdbcType=DECIMAL},
+      CY_NUM = #{record.cyNum,jdbcType=DECIMAL},
+      CY_COST_NUM = #{record.cyCostNum,jdbcType=DECIMAL}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.portal.bean.JddAccount" >
+    update JDD_ACCOUNT
+    <set >
+      <if test="yearNo != null" >
+        YEAR_NO = #{yearNo,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null" >
+        USER_ID = #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null" >
+        USER_NAME = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="lyNum != null" >
+        LY_NUM = #{lyNum,jdbcType=DECIMAL},
+      </if>
+      <if test="lyCostNum != null" >
+        LY_COST_NUM = #{lyCostNum,jdbcType=DECIMAL},
+      </if>
+      <if test="cyNum != null" >
+        CY_NUM = #{cyNum,jdbcType=DECIMAL},
+      </if>
+      <if test="cyCostNum != null" >
+        CY_COST_NUM = #{cyCostNum,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where GUID = #{guid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.portal.bean.JddAccount" >
+    update JDD_ACCOUNT
+    set YEAR_NO = #{yearNo,jdbcType=VARCHAR},
+      USER_ID = #{userId,jdbcType=VARCHAR},
+      USER_NAME = #{userName,jdbcType=VARCHAR},
+      LY_NUM = #{lyNum,jdbcType=DECIMAL},
+      LY_COST_NUM = #{lyCostNum,jdbcType=DECIMAL},
+      CY_NUM = #{cyNum,jdbcType=DECIMAL},
+      CY_COST_NUM = #{cyCostNum,jdbcType=DECIMAL}
+    where GUID = #{guid,jdbcType=VARCHAR}
+  </update>
+</mapper>
